@@ -1,0 +1,58 @@
+
+<view class="section">
+  <view class="form_style">
+    
+    <view class="form-row">
+        <view class="form-row-label-view">
+            <text>医院名称</text>
+        </view>
+        <view class="form-row-item flex2">
+            <input bindinput="bindHospitalInput" class="form-row-input"  value="{{hospital_name}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+    <view class="form-row">
+        <view class="form-row-label-view">
+            <text>病区</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindZoneInput" class="form-row-input"  value="{{hospital_zone}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+    <view class="form-row">
+        <view class="form-row-label-view">
+            <text>病床号</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindBIDInput" class="form-row-input"  value="{{bed_id}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+ <view class="form-row">
+        <view class="form-row-label-view">
+            <text>姓名</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindNameInput" class="form-row-input"  value="{{patient_name}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+     <view class="form-row">
+        <view class="form-row-label-view">
+            <text>终端号</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindDIDInput" class="form-row-input"  value="{{hospitaldevice_id}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+    <view class="form-row">
+        <button style="background-color:#FECA41;margin-top:10px;" bindtap="tapSubmit">提 交</button>
+    </view>
+
+<!--    <text>device_id: {{device_id}}</text>
+    <text>channel_id: {{channel_id}}</text>
+-->
+</view>
+</view>

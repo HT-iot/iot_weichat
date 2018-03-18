@@ -1,0 +1,77 @@
+
+<view class="section">
+  <view class="form_style">
+    
+    <view class="form-row">
+        <view class="form-row-label-view">
+            <text>Bn:</text>
+        </view>
+        <view class="form-row-item flex2">
+            <input bindinput="bindUpdate_bn" class="form-row-input"  value="{{Update_bn}}" disabled="true"  />
+        </view>
+    </view>
+
+  
+     <view class="form-row">
+        <view class="form-row-label-view">
+            <text>血氧:</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindUpdate_oxgen" type="number" class="form-row-input"  value="{{Update_oxgen}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+ <view class="form-row">
+        <view class="form-row-label-view">
+            <text>脉搏:</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindUpdate_pulse"  type="number" class="form-row-input"  value="{{Update_pulse}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+     <view class="form-row">
+        <view class="form-row-label-view">
+            <text>舒张压:</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindUpdate_presslow"  type="number" class="form-row-input"  value="{{Update_presslow}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+     <view class="form-row">
+        <view class="form-row-label-view">
+            <text>收缩压:</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindUpdate_presshigh"  type="number" class="form-row-input"  value="{{Update_presshigh}}"  name="input"  placeholder="" />
+        </view>
+    </view>
+
+  <view class="form-row">
+        <view class="form-row-label-view">
+            <text>当前经度:</text>
+        </view>
+        <view class="form-row-item flex2">
+            <input bindinput="bindUpdate_longitude" type="digit" class="form-row-input"  value="{{longitude}}"  disabled="true" />
+        </view>
+    </view>
+
+    <view class="form-row">
+        <view class="form-row-label-view">
+            <text>当前纬度:</text>
+        </view>
+        <view class="form-row-item flex2">
+               <input bindinput="bindUpdate_latitude" type="digit" class="form-row-input"  value="{{latitude}}"  disabled="true"/>
+        </view>
+    </view>
+
+    <view class="form-row">
+        <button style="background-color:#FECA41;margin-top:10px;" bindtap="upload">点击上报信息</button>
+    </view>
+
+</view>
+</view>
+
+
+
