@@ -4,7 +4,7 @@
   flex:1;
   flex-direction:column;
   background:#ffffff;
-      font-size: 24rpx;
+  font-size: 24rpx;
 }
 .form-row{
   display: flex;

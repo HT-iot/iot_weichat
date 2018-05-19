@@ -7,5 +7,10 @@
 <input class="input" password="true" placeholder="请输入密码" value="{{password}}" placeholder-style="color: red" bindinput="listenerPasswordInput"/>
 </view>
 
+<!---
+<button style="margin-left: 15rpx; margin-right: 15rpx; margin-top: 50rpx; border-radius: 40rpx" 
+type="primary" bindtap="listenerLogin">登录</button>
+-->
 
-<button style="margin-left: 15rpx; margin-right: 15rpx; margin-top: 50rpx; border-radius: 40rpx" type="primary" bindtap="listenerLogin">登录</button>
+ <button  style="margin-left: 15rpx; margin-right: 15rpx; margin-top: 50rpx; border-radius: 40rpx" 
+type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo0"> 登录 </button>

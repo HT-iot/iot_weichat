@@ -1,5 +1,8 @@
 //index.js
 //获取应用实例
+var API_SERVER_USER = "https://www.hitech-iot.com/mgr/tokens";
+//var API_SERVER_USER = "http://192.168.100.70:8180/tokens";
+//var API_SERVER_USER = "https://122.152.248.83:8180/tokens";
 
 const app = getApp();
 
@@ -24,19 +27,20 @@ Page({
         
     
       //更新数据
+      /*  for pass qualification
       if( !userInfo.IOTInfo ) {
         wx.switchTab({
           url: '../login/login'
         });
         return;
       }
-
+*/
       if (!app.globalData.ispassed){
         console.log("app.globalData.ispassed=fasle")
         var user2 = userInfo.IOTInfo.user;
         var password2 = userInfo.IOTInfo.password;
         wx.request({
-          url: "https://www.cloud4iot.cn/mgr/tokens",
+          url: API_SERVER_USER,
           method: 'POST',
           data: {
             'email': user2,
@@ -46,7 +50,7 @@ Page({
             'Content-Type': 'application/senml+json'
           },
           success: function (res) {
-              if (res.statusCode == '201') {
+            if ((res.statusCode == '200') || (res.statusCode == '201') || (res.statusCode == '202')) {
               var token = res.data.token;
               // 存phone，token
               app.getUserInfo(function (userInfo) {
@@ -66,7 +70,21 @@ Page({
                 });
 
               });
-            }}
+            }else{
+              app.globalData.ispassed = false;
+              wx.showModal({
+                title: '账户信息有误，请重新登录',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.switchTab({
+                      url: '../index/index'
+                    })
+                  }
+                }
+              })
+            }
+            }
         })
       }
 

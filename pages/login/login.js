@@ -1,7 +1,10 @@
 // login.js
 
 const app = getApp()
-var API_SERVER_USER = "https://www.cloud4iot.cn/mgr/tokens";
+
+var API_SERVER_USER = "https://www.hitech-iot.com/mgr/tokens";
+//var API_SERVER_USER = "http://192.168.100.70:8180/tokens";
+//var API_SERVER_USER = "https://122.152.248.83:8180/tokens";
 
 Page( {
   data: {
@@ -38,7 +41,8 @@ Page( {
   onShow: function() {
     var that = this
     var userInfo = app.getUserInfoSync();
-    if (userInfo.IOTInfo ==  "object"){
+  //  if (userInfo.IOTInfo ==  "object")
+    {
       if ((userInfo.IOTInfo.user != null) && (userInfo.IOTInfo.password != null) && (userInfo.IOTInfo.token != null)) {
         // 回到登陆之前的页面
         that.setData({
@@ -91,8 +95,7 @@ Page( {
         if ((res.statusCode == '200') || (res.statusCode == '201') || (res.statusCode == '202')) {
           
           var token = res.data.token;
-        
-          // 存phone，token
+         // 存phone，token
           app.getUserInfo(function (userInfo) {
             //更新数据
 
@@ -106,20 +109,57 @@ Page( {
               key: 'userInfo',
               data: userInfo,
               complete: function () {
-                // 回到登陆之前的页面
-                wx.switchTab({
-                  url: '../index/index'
-                })
                 app.globalData.ispassed = true;
+                wx.showModal({
+                  title: '设置成功',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.switchTab({
+                        url: '../index/index'
+                      })
+                    }
+                  }
+                })
+                // 回到登陆之前的页面
+          
               }
             });
 
           });
           
+        }else{
+          // 清空phone，token
+          app.getUserInfo(function (userInfo) {
+            //更新数据
+            userInfo.IOTInfo = {};
+            userInfo.IOTInfo.token = '';
+            userInfo.IOTInfo.password = '';
+            userInfo.IOTInfo.user = user2;
+            wx.setStorage({
+                key: 'userInfo',
+                data: userInfo,
+               });
+          });
+          app.globalData.ispassed = false;
+          wx.showModal({
+            title: '登录失败，请确认账号密码',
+            showCancel: false,
+          })
         }
       },
     })
   },
 
+  getUserInfo0: function (e) {
+    console.log("getUserInfo0", e)
+    app.globalData.userInfo = e.detail.userInfo
 
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+    this.listenerLogin()
+  }
+ 
 })

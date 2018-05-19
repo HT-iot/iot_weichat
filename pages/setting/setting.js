@@ -1,8 +1,8 @@
 // pages/setting/setting.js
 const app = getApp()
-//var DEV_SERVER_USER = "http://192.168.100.48:8080//device/pconfig";
-var DEV_SERVER_USER = "https://www.cloud4iot.cn/adm/device/pconfig";
-
+//var DEV_SERVER_USER = "https://122.152.248.83:8080/device/pconfig";
+var DEV_SERVER_USER = "https://www.hitech-iot.com/adm/device/pconfig";
+//var DEV_SERVER_USER = "http://192.168.100.70:8080/device/pconfig";
 
 Page({
 
@@ -21,15 +21,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('login.js onLoad:' + JSON.stringify(options));
-
+    console.log('setting.js onLoad:' + JSON.stringify(options));
+/*
     var userInfo = app.getUserInfoSync();
+    console.log(app.globalData.ispassed);
     if (!app.globalData.ispassed) {
       // 回到登陆之前的页面
       wx.switchTab({
         url: '../login/login'
       })
     }
+*/
   },
 
   /**
@@ -43,24 +45,27 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
+  
     var that = this
-    var userInfo = app.getUserInfoSync();
-    if (userInfo.IOTInfo2 == "object") {
-    if ((userInfo.IOTInfo2.channelid != null) && (userInfo.IOTInfo2.deviceid != null) && (userInfo.IOTInfo2.devicekey != null)) {
+    if (!app.globalData.ispassed) {
       // 回到登陆之前的页面
+      wx.switchTab({
+        url: '../login/login'
+      })
+    }
+      var userInfo = app.getUserInfoSync();
+      console.log("setting.js onshow0", userInfo);
+ 
+      // 回到登陆之前的页面
+      console.log("setting.js onshow1",userInfo.IOTInfo2);
       that.setData({
         hospital_name: userInfo.IOTInfo2.hospitalname,
         hospital_zone: userInfo.IOTInfo2.hospitalzone,
         bed_id: userInfo.IOTInfo2.hospitalbed,
         patient_name:userInfo.IOTInfo2.patientname,
         hospitaldevice_id: userInfo.IOTInfo2.hospitaldeviceid,
-        
-
-//        device_id: userInfo.IOTInfo2.deviceid,
-//        channel_id: userInfo.IOTInfo2.channelid
       });
-    }}
+
   },
 
   /**
@@ -119,14 +124,28 @@ Page({
   },
 
   tapSubmit: function () {
-    //打印收入账号和密码
+    //账号和密码
     var that = this;
+    var userInfo = app.getUserInfoSync();
     console.log('data: ', this.data);
     var hospitalname2 = this.data.hospital_name;
     var hospitalzone2 = this.data.hospital_zone;
     var bedid2 = this.data.bed_id;
     var patientname2 = this.data.patient_name; 
     var hospitaldeviceid2 = this.data.hospitaldevice_id;
+
+//存数据
+    userInfo.IOTInfo2 = {};
+    userInfo.IOTInfo2.hospitalname = hospitalname2;
+    userInfo.IOTInfo2.hospitalzone = hospitalzone2;
+    userInfo.IOTInfo2.hospitalbed = bedid2;
+    userInfo.IOTInfo2.patientname = patientname2;
+    userInfo.IOTInfo2.hospitaldeviceid = hospitaldeviceid2;
+    wx.setStorage({
+      key: 'userInfo',
+      data: userInfo,
+     });
+  
     wx.request({
       url: DEV_SERVER_USER,
       method: 'POST',
@@ -140,10 +159,10 @@ Page({
       header: {
         'Content-Type': 'application/senml+json'
       },
-      success: function (res) {
-        console.log("setting res", res);
+      complete: function (res) {
+
         if (((res.statusCode == '200') || (res.statusCode == '201') || (res.statusCode == '202')) && (res.data.succ=='succ')) {
-          console.log("setting res",res.data);
+ 
           var deviceid = res.data.deviceid;
           var channelid = res.data.channelid
           var devicekey = res.data.devicekey
@@ -158,29 +177,40 @@ Page({
             userInfo.IOTInfo2.deviceid = deviceid;
             userInfo.IOTInfo2.channelid = channelid;
             userInfo.IOTInfo2.devicekey = devicekey;
-            console.log("IOTInfo2");
-            that.setData({
-              device_id: deviceid,
-              channel_id: channelid,
-            });
+               
+            app.globalData.userpassed = true;
             wx.setStorage({
               key: 'userInfo',
               data: userInfo,
               complete: function () {
-                // 回到登陆之前的页面
-                wx.switchTab({
-                  url: '../index/index'
+                 wx.showModal({
+                   title: '设置成功',
+                   showCancel: false,
+                    success: function (res) {
+                      if (res.confirm) {
+                        wx.switchTab({
+                          url: '../index/index'
+                        })
+                    }}
                 })
               }
             });
 
           });
-        }
+        } else{
+          app.globalData.userpassed = false;
+          wx.showModal({
+            title: '登录失败，请确认用户数据',
+            showCancel: false,
+          })
+        };
+      },
+      fail:function(){
+        wx.showModal({
+          title: '网络故障，登录失败',
+          showCancel: false,
+        })
       },
     })
-    console.log('setting device: ', app.globalData);
-  },
-
-
-
+  }
 })

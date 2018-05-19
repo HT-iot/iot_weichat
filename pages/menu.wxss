@@ -5,6 +5,6 @@
   width: 100%;
   background: #fff;
   border-bottom:#eee solid 1px;
-  z-index: 100000；
+  z-index: 100000;
   border-radius: 4rpx;
 }

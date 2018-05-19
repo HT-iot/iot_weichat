@@ -11,6 +11,14 @@
         </view>
     </view>
 
+  <view class="form-row">
+        <view class="form-row-label-view">
+            <text>体感:</text>
+        </view>
+        <view class="form-row-item flex2">
+              <input bindinput="bindUpdate_body" type="number" class="form-row-input"  value="{{Update_body}}"  name="input"  placeholder="" />
+        </view>
+    </view>
   
      <view class="form-row">
         <view class="form-row-label-view">
